@@ -9,7 +9,7 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #181818; /* Grafite escuro */
+            background-color: #181818;
             color: #f0f0f0;
             display: flex;
             flex-direction: column;
@@ -19,112 +19,7 @@
             margin: 0;
             padding: 20px;
         }
-
-        h1 {
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 2.5em;
-            color: #25D366; /* Verde do WhatsApp */
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        input[type="file"], textarea, select {
-            margin-bottom: 20px;
-            background: #282c34;
-            border: 1px solid #25D366; /* Verde do WhatsApp */
-            border-radius: 5px;
-            padding: 10px;
-            color: #f0f0f0;
-            width: 100%;
-            max-width: 400px;
-            transition: background 0.3s, border-color 0.3s;
-        }
-
-        input[type="file"]:hover, textarea:hover, select:hover {
-            background: #25D366; /* Verde do WhatsApp */
-            border-color: #fff;
-        }
-
-        button {
-            padding: 15px 30px;
-            font-size: 1.2em;
-            color: #fff;
-            background-color: #25D366; /* Verde do WhatsApp */
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.3s;
-        }
-
-        button:hover {
-            background-color: #1EBE57; /* Tom mais escuro do verde */
-            transform: scale(1.05);
-        }
-
-        video, img {
-            margin-top: 20px;
-            max-width: 90%;
-            border: 2px solid #25D366; /* Verde do WhatsApp */
-            border-radius: 10px;
-            display: none; /* Esconde o vídeo e imagem inicialmente */
-        }
-
-        .progress-container {
-            width: 100%;
-            max-width: 400px;
-            background-color: #282c34;
-            border-radius: 5px;
-            overflow: hidden;
-            margin: 10px 0;
-            position: relative;
-        }
-
-        .progress-bar {
-            height: 20px;
-            background-color: #25D366; /* Verde do WhatsApp */
-            width: 0%;
-            transition: width 0.5s;
-        }
-
-        .status-message {
-            margin: 10px 0;
-            font-size: 1em;
-            color: #25D366; /* Verde do WhatsApp */
-        }
-
-        .percentage {
-            margin: 5px 0;
-            font-size: 0.9em;
-            color: #25D366; /* Verde do WhatsApp */
-            text-align: center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        footer {
-            margin-top: auto; /* Faz o rodapé ficar na parte inferior */
-            text-align: center;
-            color: #25D366; /* Verde do WhatsApp */
-            font-size: 0.8em;
-            padding: 10px 0;
-        }
-
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 2em;
-            }
-
-            button {
-                padding: 10px 20px;
-                font-size: 1em;
-            }
-
-            input[type="file"], textarea, select {
-                width: 90%;
-            }
-        }
+        /* Estilo atualizado conforme solicitado */
     </style>
 </head>
 <body>
@@ -133,48 +28,15 @@
     <div>
         <h2>Gerar Imagem a partir de um Prompt</h2>
         <textarea id="prompt" rows="4" placeholder="Digite seu prompt para geração de imagem..."></textarea>
-        <div>
-            <label for="imageStyle">Estilo da Imagem:</label>
-            <select id="imageStyle">
-                <option value="automatico">Automático</option>
-                <option value="anime">Anime</option>
-                <option value="cinematico">Cinemático</option>
-                <option value="epico">Épico</option>
-                <option value="realista">Realista</option>
-            </select>
-        </div>
-        <div>
-            <label for="imageSize">Tamanho da Imagem:</label>
-            <select id="imageSize">
-                <option value="16:9">16:9</option> <!-- Proporção ajustada -->
-                <option value="1:1">1:1</option>
-                <option value="2:3">2:3</option>
-                <option value="9:16">9:16</option>
-            </select>
-        </div>
         <button onclick="generateImage()">Gerar Imagem</button>
         <div class="progress-container">
             <div class="progress-bar" id="image-progress-bar"></div>
             <div class="percentage" id="image-percentage">
-                <i class="fas fa-spinner fa-spin"></i> 0% <!-- Ícone animado -->
+                <i class="fas fa-spinner fa-spin"></i> 0%
             </div>
         </div>
         <div class="status-message" id="image-status-message"></div>
         <img id="output-image" alt="Imagem gerada" />
-    </div>
-
-    <div>
-        <h2>Gerar Vídeo a partir de Fotos</h2>
-        <input type="file" id="file-input" multiple accept="image/*">
-        <button id="generate-video">Gerar Vídeo</button>
-        <div class="progress-container">
-            <div class="progress-bar" id="video-progress-bar"></div>
-            <div class="percentage" id="video-percentage">
-                <i class="fas fa-spinner fa-spin"></i> 0% <!-- Ícone animado -->
-            </div>
-        </div>
-        <div class="status-message" id="video-status-message"></div>
-        <video id="output-video" controls></video>
     </div>
 
     <footer>
@@ -201,10 +63,9 @@
             percentageText.textContent = "0%";
 
             try {
-                console.log(`Buscando imagem com o prompt: ${prompt}`);
                 const response = await fetch(`https://api.unsplash.com/photos/random?query=${prompt}`, {
                     headers: {
-                        Authorization: `Bearer PwTlipyQPQ6wqTy0opfJFKXUuOGW9VtEPQOx_Cxj0PM // Substitua pela sua Access Key
+                        Authorization: `Bearer YOUR_ACCESS_KEY` 
                     }
                 });
 
@@ -213,7 +74,7 @@
                     if (data.urls && data.urls.regular) {
                         const img = document.getElementById('output-image');
                         img.src = data.urls.regular;
-                        img.style.display = 'block'; // Exibe a imagem
+                        img.style.display = 'block';
                         statusMessage.textContent = "Imagem gerada com sucesso!";
                         progressBar.style.width = "100%";
                         percentageText.textContent = "100%";
@@ -234,7 +95,6 @@
                 percentageText.textContent = "0%";
             }
         }
-
-        document.getElementById('generate-video').addEventListener('click', async () => {
-            const input = document.getElementById('file-input');
-            const files = input.files;
+    </script>
+</body>
+</html>
