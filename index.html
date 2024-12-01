@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💭 Chatbot Empresarial</title>
+    <title>💭 .Chatbot Empresarial</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -92,25 +92,13 @@
         #header {
             text-align: center;
             font-size: 24px;
-            margin-bottom: 10px;
+            margin-bottom: 10px; /* Adicionado espaço vertical de 50px */
             color: #333;
-        }
-        #banner {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        #banner img {
-            width: 100%;
-            max-width: 600px;
-            height: auto;
         }
     </style>
 </head>
 <body>
-    <div id="banner">
-        <!-- Substitua o caminho abaixo pela URL da sua imagem ou pelo caminho local -->
-        <img src="banner.jpeg" alt="Banner Chatbot Empresarial">
-    </div>
+    <div id="header">Chatbot Empresarial</div>
     <div id="chat-container">
         <div class="chat-box" id="chat-box"></div>
         <div>
@@ -119,29 +107,67 @@
         </div>
     </div>
     <div id="footer">
-        <p>&copy; 2024 IaDesigner - <a href="https://www.seusite.com/termo-de-uso" target="_blank">Termo de Uso</a></p>
+        <p>@Copyright 2024 IaDesigner - <a href="https://www.seusite.com/termo-de-uso" target="_blank">Termo de Uso</a></p>
     </div>
     <script>
-        const chatBox = document.getElementById("chat-box");
-        const messageInput = document.getElementById("message-input");
-        const sendButton = document.getElementById("send-button");
-
-        sendButton.addEventListener("click", () => {
-            const userMessage = messageInput.value.trim();
-            if (userMessage) {
-                addMessage("user", userMessage);
-                messageInput.value = "";
-                setTimeout(() => addMessage("bot", "Olá! Como posso ajudar?"), 1000);
+        function showUserMessage(a) {
+            let b = document.getElementById("chat-box"),
+                c = document.createElement("div");
+            c.classList.add("user-message"), c.textContent = a, b.appendChild(c), b.scrollTop = b.scrollHeight;
+        }
+        function showBotMessage(a) {
+            let b = document.getElementById("chat-box"),
+                c = document.createElement("div");
+            c.classList.add("bot-message"), c.innerHTML = a, b.appendChild(c), b.scrollTop = b.scrollHeight;
+        }
+        function simulateTyping(a, b = 0) {
+            if (b < a.length) {
+                let c = document.getElementById("chat-box"),
+                    d = document.createElement("div");
+                d.classList.add("bot-message"), d.innerHTML = '<span class="typing"></span>', c.appendChild(d), setTimeout(() => {
+                    c.removeChild(d), showBotMessage(a[b]), setTimeout(() => {
+                        simulateTyping(a, b + 1);
+                    }, 3000);
+                }, 2000);
+            }
+        }
+        let chatState = 0;
+        function handleUserMessage(a) {
+            if (chatState === 0) {
+                showUserMessage(a), setTimeout(() => {
+                    simulateTyping(["Olá! Eu sou o assistente. Como posso te ajudar hoje?", "Escolha uma opção: \n1. Falar com suporte técnico \n2. Saber mais sobre o produto \n3. Falar com vendas"]);
+                }, 1000), chatState = 1;
+            } else if (chatState === 1) {
+                showUserMessage(a), a.toLowerCase().includes("1") ? setTimeout(() => {
+                    simulateTyping(["Você escolheu 'Suporte Técnico'. O que você precisa?", "1 - Curso de Inteligência Artificial", "2 - Criar um Chatbot para sua empresa", "3 - Criação de logotipo", "4 - Catálogo", "0 - Voltar ao menu principal."]), chatState = 2;
+                }, 1000) : a.toLowerCase().includes("2") ? setTimeout(() => {
+                    simulateTyping(["Você escolheu 'Saber mais sobre o produto'.", "Enquanto você aguarda, se inscreva em nossos Canais do YouTube:", "Canal Plínio Fabrício: https://www.youtube.com/@pliniofabricio_?sub_confirmation=1", "Canal Curiosidades e Mistérios: https://www.youtube.com/@curiosidades.mysteries?sub_confirmation=1", "Aguarde ou ligue direto: 87999786261"]), chatState = 2;
+                }, 1000) : a.toLowerCase().includes("3") ? setTimeout(() => {
+                    simulateTyping(["Você escolheu 'Falar com vendas'.", "Enviarei sua mensagem para nossa equipe. Logo respondemos. Se desejar algo mais, deixe uma mensagem ou ligue, 87999786261. Muito Obrigado!"]), chatState = 2;
+                }, 1000) : setTimeout(() => {
+                    simulateTyping(["Desculpe, não entendi. Escolha uma das opções: 1, 2 ou 3."]);
+                }, 1000);
+            } else if (chatState === 2) {
+                a.toLowerCase() === "0" ? setTimeout(() => {
+                    simulateTyping(["Você voltou ao menu principal. Como posso te ajudar?"]), chatState = 0;
+                }, 1000) : setTimeout(() => {
+                    simulateTyping(["Agradecemos por entrar em contato! Caso precise de mais ajuda, estou à disposição."]), chatState = 0;
+                }, 1000);
+            }
+        }
+        document.getElementById("send-button").addEventListener("click", () => {
+            let a = document.getElementById("message-input").value;
+            if (a.trim() !== "") {
+                handleUserMessage(a), document.getElementById("message-input").value = "";
+            }
+        }), document.getElementById("message-input").addEventListener("keydown", (a) => {
+            if (a.key === "Enter") {
+                let b = document.getElementById("message-input").value;
+                if (b.trim() !== "") {
+                    handleUserMessage(b), document.getElementById("message-input").value = "";
+                }
             }
         });
-
-        function addMessage(sender, message) {
-            const messageDiv = document.createElement("div");
-            messageDiv.className = sender === "user" ? "user-message" : "bot-message";
-            messageDiv.textContent = message;
-            chatBox.appendChild(messageDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
     </script>
 </body>
 </html>
